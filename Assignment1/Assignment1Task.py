@@ -35,6 +35,8 @@ class Assignment1:
               p.start()
               for m in self.mThreads:
                m.start()   
+
+          print(f"=== Task1 Simulation Started: {self.NUM_MACHINES} machines | {self.NUM_PRINTERS} printers | Running for {self.SIMULATION_TIME} seconds ===")
         
         # Let the simulation run for some time
           time.sleep(self.SIMULATION_TIME)  
@@ -44,26 +46,31 @@ class Assignment1:
 
         # Wait until all printer threads finish by joining them
         # Write code here
+          for p in self.Threads:
+              p.join()
+    print("=== Task1 Simulation Ended: All printer threads completed ===")   
+
+              
 
     # Printer class
-    class printerThread(threading.Thread):
-        def __init__(self, printerID, outer):
+    class printerThread(threading.Thread):    
+         def __init__(self, printerID, outer):
             threading.Thread.__init__(self)
             self.printerID = printerID
             self.outer = outer  # Reference to the Assignment1 instance
 
-        def run(self):
+         def run(self):
             while self.outer.sim_active:
                 # Simulate printer taking some time to print the document
                 self.printerSleep()
                 # Grab the request at the head of the queue and print it
                 # Write code here
 
-        def printerSleep(self):
+         def printerSleep(self):
             sleepSeconds = random.randint(1, self.outer.MAX_PRINTER_SLEEP)
             time.sleep(sleepSeconds)
 
-        def printDox(self, printerID):
+         def printDox(self, printerID):
             print(f"Printer ID: {printerID} : now available")
             # Print from the queue
             self.outer.print_list.queuePrint(printerID)

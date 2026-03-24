@@ -23,30 +23,30 @@ class Assignment1:
     def startSimulation(self):
         # Create Machine and Printer threads
         # Write code here
-          for p_id in range  (1,self.NUM_PRINTERS+1):
+         for p_id in range  (1,self.NUM_PRINTERS+1): 
               printer_thread = self.printerThread(p_id,self)
               self.pThreads.append(printer_thread)
-          for m_id in range (1,self.NUM_MACHINES+1):
+         for m_id in range (1,self.NUM_MACHINES+1): 
              machine_thread = self .machineThread(m_id,self)
              self.mThreads.append (machine_thread) 
         # Start all the threads
         # Write code here
-             for p in self.pThreads:
+         for p in self.pThreads:    
               p.start()
-              for m in self.mThreads:
+         for m in self.mThreads:     
                m.start()   
 
-          print(f"=== Task1 Simulation Started: {self.NUM_MACHINES} machines | {self.NUM_PRINTERS} printers | Running for {self.SIMULATION_TIME} seconds ===")
+         print(f"=== Task1 Simulation Started: {self.NUM_MACHINES} machines | {self.NUM_PRINTERS} printers | Running for {self.SIMULATION_TIME} seconds ===") 
         
         # Let the simulation run for some time
-          time.sleep(self.SIMULATION_TIME)  
+         time.sleep(self.SIMULATION_TIME)    
 
         # Finish simulation
-          self.sim_active = False  
+         self.sim_active = False   
 
         # Wait until all printer threads finish by joining them
         # Write code here
-          for p in self.Threads:
+         for p in self.Threads: 
               p.join()
     print("=== Task1 Simulation Ended: All printer threads completed ===")   
 
@@ -89,6 +89,8 @@ class Assignment1:
                 self.machineSleep()
                 # Machine wakes up and sends a print request
                 # Write code here
+                self.printRequest(self.machineID)
+
 
         def machineSleep(self):
             sleepSeconds = random.randint(1, self.outer.MAX_MACHINE_SLEEP)
@@ -100,3 +102,10 @@ class Assignment1:
             doc = printDoc(f"My name is machine {id}", id)
             # Insert it in the print queue
             self.outer.print_list.queueInsert(doc)
+            
+   
+            # Instantiate main simulation class
+if __name__ == "__main__":
+    sim = Assignment1()
+    sim.startSimulation()   
+ 

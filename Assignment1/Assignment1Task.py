@@ -15,6 +15,12 @@ class Assignment1:
     QUEUE_CAPACITY = 5       # Max queue size 
     MACHINE_NUM = 8          # Number of machines
     PRINTER_NUM = 5          # Number of printers (consumers)
+
+    # Global queue & synchronization tools
+    print_queue = PrintList(QUEUE_CAPACITY)
+    lock = multiprocessing.Lock()
+    condition = multiprocessing.Condition(lock)
+    
  
 
     # Initialise simulation variables

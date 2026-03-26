@@ -12,16 +12,6 @@ class Assignment1:
     SIMULATION_TIME = 30     # Total simulation time in seconds
     MAX_PRINTER_SLEEP = 3    # Maximum sleep time for printers
     MAX_MACHINE_SLEEP = 5    # Maximum sleep time for machines
-    QUEUE_CAPACITY = 5       # Max queue size 
-    MACHINE_NUM = 8          # Number of machines
-    PRINTER_NUM = 5          # Number of printers (consumers)
-
-    # Global queue & synchronization tools
-    print_queue = PrintList(QUEUE_CAPACITY)
-    lock = multiprocessing.Lock()
-    condition = multiprocessing.Condition(lock)
-    
- 
 
     # Initialise simulation variables
     def __init__(self):
@@ -30,7 +20,9 @@ class Assignment1:
         self.mThreads = []             # list for machine threads
         self.pThreads = []             # list for printer threads
         self.count_sem = threading.Semaphore(self.NUM_PRINTERS)  
-        self.binary_sem = threading.Semaphore(1)             
+        self.binary_sem = threading.Semaphore(1) 
+        self.empty = threading.Semaphore(5)    #/mpty slots
+        self.mutex = threading.Semaphore(1)#utual exclusion
 
     def startSimulation(self):
         # Create Machine and Printer threads

@@ -19,6 +19,8 @@ class Assignment1:
         self.print_list = printList()  # Create an empty list of print requests
         self.mThreads = []             # list for machine threads
         self.pThreads = []             # list for printer threads
+        self.count_sem = threading.Semaphore(self.NUM_PRINTERS)  
+        self.binary_sem = threading.Semaphore(1)             
 
     def startSimulation(self):
         # Create Machine and Printer threads
@@ -107,5 +109,6 @@ class Assignment1:
             # Instantiate main simulation class
 if __name__ == "__main__":
     sim = Assignment1()
+    
     sim.startSimulation()   
  

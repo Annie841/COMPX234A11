@@ -61,6 +61,31 @@ public class StrLinkedList {
         }
           return false;
         }
+         /**
+     * Get the value at a specific index
+     * @param index position to get value from
+     * @return string value at index, or null if invalid index
+     */
+    public String getValueAt(int index){
+         if(index<0||isEmpty()){
+            return null;
+    }
+    Node current = head;
+    int currentIndex = 0;
+     while (current!=null){
+        if( currentIndex == index)
+            return current.data;
+        }
+        currentIndex ++;
+        current = current.next;
+
+     }
+     return null;
+        
+     }
+    }
+       
+
 
     
         

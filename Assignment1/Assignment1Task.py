@@ -38,7 +38,10 @@ class Assignment1:
          for p in self.pThreads:    
               p.start()
          for m in self.mThreads:     
-               m.start()   
+               m.start()
+
+         print("=== Task2 Simulation Started ===")
+        
 
          print(f"=== Task1 Simulation Started: {self.NUM_MACHINES} machines | {self.NUM_PRINTERS} printers | Running for {self.SIMULATION_TIME} seconds ===") 
         
@@ -52,7 +55,7 @@ class Assignment1:
         # Write code here
          for p in self.Threads: 
               p.join()
-    print("=== Task1 Simulation Ended: All printer threads completed ===")   
+    print("=== Task2 Simulation Ended ===")
 
               
 

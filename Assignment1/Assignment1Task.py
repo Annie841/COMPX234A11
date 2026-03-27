@@ -69,7 +69,22 @@ class Assignment1:
           # Create machine threads
          for m_id in range(1, self.NUM_MACHINES + 1):
             thread = self.MachineTask2(m_id, self)
-            self.machine_threads.append(thread)   
+            self.machine_threads.append(thread)
+             # Start all threads
+         for t in self.printer_threads:
+            t.start()
+         for t in self.machine_threads:
+            t.start()   
+
+             # Run simulation for specified time
+         time.sleep(self.SIMULATION_TIME)
+         self.sim_active = False
+         # Release semaphores to avoid blocking threads
+         for _ in range(self.QUEUE_SIZE):
+            self.empty.release()
+            self.full.release()
+
+            
          print("=== Task2 Simulation Started ===")
         
 

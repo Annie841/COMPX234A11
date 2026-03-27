@@ -42,10 +42,24 @@ class Assignment1:
              self.mThreads.append (machine_thread) 
         # Start all the threads
         # Write code here
+        
          for p in self.pThreads:    
               p.start()
          for m in self.mThreads:     
                m.start()
+         time.sleep(self.SIMULATION_TIME)
+         self.sim_active = False
+         for p in self.printer_threads:
+            p.join()
+         for m in self.machine_threads:
+            m.join()
+        
+         print("===== TASK 1 COMPLETED =====")
+          # ===================== Start Task 2: Synchronized Version (No Overwrite | Safe Access) =====================
+         def start_task2(self):
+         self.sim_active = True
+         self.machine_threads.clear()
+         self.printer_threads.clear()      
 
          print("=== Task2 Simulation Started ===")
         

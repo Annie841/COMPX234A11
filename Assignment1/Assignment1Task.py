@@ -12,6 +12,7 @@ class Assignment1:
     SIMULATION_TIME = 30     # Total simulation time in seconds
     MAX_PRINTER_SLEEP = 3    # Maximum sleep time for printers
     MAX_MACHINE_SLEEP = 5    # Maximum sleep time for machines
+    QUEUE_SIZE = 5  
 
     # Initialise simulation variables
     def __init__(self):
@@ -34,47 +35,50 @@ class Assignment1:
          self.printer_threads.clear()
          print(f"\n===== TASK 1 START (No Synchronization | Queue Overwrite) | {self.NUM_MACHINES} Machines | {self.NUM_PRINTERS} Printers | Runtime: {self.SIMULATION_TIME}s =====")
         
-         for p_id in range  (1,self.NUM_PRINTERS+1): 
-              printer_thread = self.printerThread(p_id,self)
-              self.pThreads.append(printer_thread)
-         for m_id in range (1,self.NUM_MACHINES+1): 
-             machine_thread = self .machineThread(m_id,self)
-             self.mThreads.append (machine_thread) 
+         for p_id in range(1, self.NUM_PRINTERS + 1):
+            printer_thread = self.printerThread(p_id, self)
+            self.pThreads.append(printer_thread)
+         for m_id in range(1, self.NUM_MACHINES + 1):
+            machine_thread = self.machineThread(m_id, self)
+            self.mThreads.append(machine_thread)
         # Start all the threads
         # Write code here
         
-         for p in self.pThreads:    
-              p.start()
-         for m in self.mThreads:     
-               m.start()
+         for p in self.pThreads:
+            p.start()
+         for m in self.mThreads:
+            m.start()
+             # Run simulation
          time.sleep(self.SIMULATION_TIME)
          self.sim_active = False
-         for p in self.printer_threads:
-               p.join()
-         for m in self.machine_threads:
-               m.join()
+
+        # Wait for threads to finish
+         for p in self.pThreads:
+            p.join()
+         for m in self.mThreads:
+            m.join()
         
          print("===== TASK 1 COMPLETED =====")
           # ===================== Start Task 2: Synchronized Version (No Overwrite | Safe Access) =====================
          def start_task2(self):
-          self.sim_active = True
-          self.machine_threads.clear()
-          self.printer_threads.clear()
+             self.sim_active = True
+             self.mThreads.clear()
+             self.pThreads.clear()
 
          print(f"\n===== TASK 2 START (Synchronized | No Overwrite) | {self.NUM_MACHINES} Machines | {self.NUM_PRINTERS} Printers | Runtime: {self.SIMULATION_TIME}s =====")      
          # Create printer threads
          for p_id in range(1, self.NUM_PRINTERS + 1):
-            thread = self.PrinterTask2(p_id, self)
-            self.printer_threads.append(thread)
+             thread = self.PrinterTask2(p_id, self)
+             self.printer_threads.append(thread)
           # Create machine threads
          for m_id in range(1, self.NUM_MACHINES + 1):
-            thread = self.MachineTask2(m_id, self)
-            self.machine_threads.append(thread)
+             thread = self.MachineTask2(m_id, self)
+             self.machine_threads.append(thread)
              # Start all threads
          for t in self.printer_threads:
-            t.start()
+             t.start()
          for t in self.machine_threads:
-            t.start()   
+             t.start()   
 
              # Run simulation for specified time
          time.sleep(self.SIMULATION_TIME)
@@ -85,9 +89,9 @@ class Assignment1:
             self.full.release()
             # Wait for all threads to finish
          for t in self.printer_threads:
-            t.join()
+             t.join()
          for t in self.machine_threads:
-            t.join()
+             t.join()
         
          print("===== TASK 2 COMPLETED =====")
 
@@ -95,20 +99,7 @@ class Assignment1:
          
         
 
-         print(f"=== Task1 Simulation Started: {self.NUM_MACHINES} machines | {self.NUM_PRINTERS} printers | Running for {self.SIMULATION_TIME} seconds ===") 
         
-        # Let the simulation run for some time
-         time.sleep(self.SIMULATION_TIME)    
-
-        # Finish simulation
-         self.sim_active = False   
-
-        # Wait until all printer threads finish by joining them
-        # Write code here
-         for p in self.Threads: 
-              p.join()
-    print("=== Task2 Simulation Ended ===")
-
               
 
     # Printer class
@@ -181,8 +172,8 @@ class Assignment1:
                     self.outer.mutex.release()
                     self.outer.full.release()
                 def machine_sleep(self):
-                 sleep_time = random.randint(1, self.outer.MAX_MACHINE_SLEEP)
-                 time.sleep(sleep_time)
+                    sleep_time = random.randint(1, self.outer.MAX_MACHINE_SLEEP)
+                    time.sleep(sleep_time)
                   # ===================== Task 2 Printer Thread (With Semaphores & Lock) =====================
     class PrinterTask2(threading.Thread):
         def __init__(self, printer_id, outer):
@@ -205,8 +196,8 @@ class Assignment1:
                     self.outer.empty.release()
 
                     def printer_sleep(self):
-                     sleep_time = random.randint(1, self.outer.MAX_PRINTER_SLEEP)
-                    time.sleep(sleep_time)
+                        sleep_time = random.randint(1, self.outer.MAX_PRINTER_SLEEP)
+                        time.sleep(sleep_time)
 
 
 
@@ -216,6 +207,6 @@ class Assignment1:
             # Instantiate main simulation class
 if __name__ == "__main__":
     sim = Assignment1()
-    
-    sim.startSimulation()   
+    sim.start_task1()   # Run Task 1 first
+    sim.start_task2()   # Then run Task 2
  

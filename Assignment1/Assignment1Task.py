@@ -50,17 +50,26 @@ class Assignment1:
          time.sleep(self.SIMULATION_TIME)
          self.sim_active = False
          for p in self.printer_threads:
-            p.join()
+               p.join()
          for m in self.machine_threads:
-            m.join()
+               m.join()
         
          print("===== TASK 1 COMPLETED =====")
           # ===================== Start Task 2: Synchronized Version (No Overwrite | Safe Access) =====================
          def start_task2(self):
-         self.sim_active = True
-         self.machine_threads.clear()
-         self.printer_threads.clear()      
+          self.sim_active = True
+          self.machine_threads.clear()
+          self.printer_threads.clear()
 
+         print(f"\n===== TASK 2 START (Synchronized | No Overwrite) | {self.NUM_MACHINES} Machines | {self.NUM_PRINTERS} Printers | Runtime: {self.SIMULATION_TIME}s =====")      
+         # Create printer threads
+         for p_id in range(1, self.NUM_PRINTERS + 1):
+            thread = self.PrinterTask2(p_id, self)
+            self.printer_threads.append(thread)
+          # Create machine threads
+         for m_id in range(1, self.NUM_MACHINES + 1):
+            thread = self.MachineTask2(m_id, self)
+            self.machine_threads.append(thread)   
          print("=== Task2 Simulation Started ===")
         
 

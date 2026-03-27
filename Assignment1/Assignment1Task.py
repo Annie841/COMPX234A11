@@ -172,7 +172,19 @@ class Assignment1:
                 self.machine_sleep()
                 doc = printDoc(f"Machine_{self.machine_id}", self.machine_id)
                 print(f"Machine {self.machine_id} sent a print request")
-                
+                # Critical Section: Synchronized insertion
+                self.outer.empty.acquire()
+                self.outer.mutex.acquire()
+                try:
+                    self.outer.print_list.queueInsert(doc)
+                finally:
+                    self.outer.mutex.release()
+                    self.outer.full.release()
+                def machine_sleep(self):
+                 sleep_time = random.randint(1, self.outer.MAX_MACHINE_SLEEP)
+                 time.sleep(sleep_time)    
+
+
 
             
    

@@ -19,14 +19,21 @@ class Assignment1:
         self.print_list = printList()  # Create an empty list of print requests
         self.mThreads = []             # list for machine threads
         self.pThreads = []             # list for printer threads
-        self.count_sem = threading.Semaphore(self.NUM_PRINTERS)  
-        self.binary_sem = threading.Semaphore(1) 
-        self.empty = threading.Semaphore(5)    #/mpty slots
-        self.mutex = threading.Semaphore(1)#utual exclusion
+        self.empty = threading.Semaphore(self.QUEUE_SIZE)   # Empty slots in queue
+        self.full = threading.Semaphore(0)                  # Filled slots in queue
+        self.mutex = threading.Semaphore(1)                  # Mutual exclusion lock
+
+        
+        
 
     def startSimulation(self):
         # Create Machine and Printer threads
         # Write code here
+         self.sim_active = True
+         self.machine_threads.clear()
+         self.printer_threads.clear()
+         print(f"\n===== TASK 1 START (No Synchronization | Queue Overwrite) | {self.NUM_MACHINES} Machines | {self.NUM_PRINTERS} Printers | Runtime: {self.SIMULATION_TIME}s =====")
+        
          for p_id in range  (1,self.NUM_PRINTERS+1): 
               printer_thread = self.printerThread(p_id,self)
               self.pThreads.append(printer_thread)

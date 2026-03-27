@@ -83,9 +83,16 @@ class Assignment1:
          for _ in range(self.QUEUE_SIZE):
             self.empty.release()
             self.full.release()
+            # Wait for all threads to finish
+         for t in self.printer_threads:
+            t.join()
+         for t in self.machine_threads:
+            t.join()
+        
+         print("===== TASK 2 COMPLETED =====")
 
             
-         print("=== Task2 Simulation Started ===")
+         
         
 
          print(f"=== Task1 Simulation Started: {self.NUM_MACHINES} machines | {self.NUM_PRINTERS} printers | Running for {self.SIMULATION_TIME} seconds ===") 
@@ -154,6 +161,19 @@ class Assignment1:
             doc = printDoc(f"My name is machine {id}", id)
             # Insert it in the print queue
             self.outer.print_list.queueInsert(doc)
+             # ===================== Task 2 Machine Thread (With Semaphores & Lock) =====================
+    class MachineTask2(threading.Thread):
+        def __init__(self, machine_id, outer):
+            super().__init__()
+            self.machine_id = machine_id
+            self.outer = outer
+        def run(self):
+            while self.outer.sim_active:
+                self.machine_sleep()
+                doc = printDoc(f"Machine_{self.machine_id}", self.machine_id)
+                print(f"Machine {self.machine_id} sent a print request")
+                
+
             
    
             # Instantiate main simulation class

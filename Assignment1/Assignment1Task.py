@@ -182,7 +182,32 @@ class Assignment1:
                     self.outer.full.release()
                 def machine_sleep(self):
                  sleep_time = random.randint(1, self.outer.MAX_MACHINE_SLEEP)
-                 time.sleep(sleep_time)    
+                 time.sleep(sleep_time)
+                  # ===================== Task 2 Printer Thread (With Semaphores & Lock) =====================
+    class PrinterTask2(threading.Thread):
+        def __init__(self, printer_id, outer):
+            super().__init__()
+            self.printer_id = printer_id
+            self.outer = outer
+
+            def run(self):
+             while self.outer.sim_active:
+                self.printer_sleep()    
+
+                 # Critical Section: Synchronized printing
+                self.outer.full.acquire()
+                self.outer.mutex.acquire()
+                try:
+                    print(f"Printer {self.printer_id} is printing...")
+                    self.outer.print_list.queuePrint(self.printer_id)
+                finally:
+                    self.outer.mutex.release()
+                    self.outer.empty.release()
+
+                    def printer_sleep(self):
+                     sleep_time = random.randint(1, self.outer.MAX_PRINTER_SLEEP)
+                    time.sleep(sleep_time)
+
 
 
 
